@@ -1,0 +1,25 @@
+<html lang="en">
+
+    <head>
+        <%- include('../partials/head'); %>
+    </head>
+
+    <body>
+
+        <main>
+            <div>
+                <form role="form" method='POST' action='/new'>
+                    <textarea id="text" name="text" autocomplete="off" rows="20" cols="80" required>Text here</textarea>
+                    <button 
+                    type="submit">Submit</button>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <%- include('../partials/footer'); %>
+        </footer>
+
+    </body>
+
+</html>
