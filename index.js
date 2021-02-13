@@ -1,9 +1,6 @@
 // Express
 const express = require('express');
 
-// Generate ids
-const { nanoid } = require('nanoid');
-
 // Database
 const Database = require('@replit/database');
 const db = new Database();
@@ -30,12 +27,22 @@ app.use('/static', express.static('public'));
 // db.list().then(keys => keys.forEach(async k => console.log(`${k} ${await db.get(k.toString())}`))); /*`${k} ${await db.get(k)}`*/
 //});
 
+const genRandomString = (len) => {
+    const str = 'ABCDEFGHIJKLMNOPQRSTUVWDYZabcdefghijklmnopqrstuvwdyz1234567890';
+    let hex = '';
+    for (i=0; i<len; i++) {
+        hex += str.charAt(Math.floor(Math.random() * str.length));
+    }
+    return hex;
+}
+
 
 app.get('/', async (req, res) => {
-    console.log(await db.getAll());
-    const id = req.query.id;    
+    // console.log(await db.getAll());
+    db.list().then(keys => keys.forEach(async k => console.log(`${k} ${await db.get(k, { raw: true })}`)));
+    const id = req.query.id;
     if (id) {
-        const text = await db.get(id/*, { raw: true }*/);
+        const text = await db.get(id, { raw: true });
         if (!text) {
             return res.render('pages/error', { error: `Could not find paste with id: ${id} in the database!` })
         }
@@ -54,10 +61,10 @@ app.post('/new', async (req, res) => {
 
     const text = req.body.text;
 
-    let id = nanoid(6);
+    let id = genRandomString(6);
 
     if (keys.includes(id)) {
-        id = nanoid(6)
+        id = genRandomString(6)
     }
 
     await db.set(id, text);
