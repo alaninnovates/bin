@@ -2,14 +2,13 @@
 const express = require('express');
 
 // Database
-
 const BinSchema = require('./binSchema');
 const mongoose = require('mongoose');
 
 // Markdown lib for html parsing
 const { markdown } = require('markdown')
 
-// All programming languages
+// Languages hljs supports
 const languages = require('./languages');
 
 const app = express();
