@@ -6,7 +6,8 @@ const BinSchema = require('./binSchema');
 const mongoose = require('mongoose');
 
 // Markdown lib for html parsing
-const { markdown } = require('markdown')
+// Not nessacary anymore
+// const { markdown } = require('markdown')
 
 // Languages hljs supports
 const languages = require('./languages');
@@ -39,11 +40,11 @@ const genRandomString = (len) => {
 app.get('/', async (req, res) => {
     const id = req.query.id;
     if (id) {
-        const text = await BinSchema.findOne({ id })
-        if (!text) {
+        const data = await BinSchema.findOne({ id })
+        if (!data) {
             return res.render('pages/error', { error: `Could not find paste with id: ${id} in the database!` })
         }
-        res.render('pages/index', { text: markdown.toHTML(text.text), lang: text.lang });
+        res.render('pages/index', { text: data.text, lang: data.lang }); /* markdown.toHTML(data.text) */
     } else {
         res.redirect('/make')
     }
@@ -59,8 +60,8 @@ app.post('/new', async (req, res) => {
 
     let id = genRandomString(6);
 
+    // This is just so we dont over write something thats already in the database
     const check = await BinSchema.findOne({ id })
-
     if (check) {
         id = genRandomString(6)
     }

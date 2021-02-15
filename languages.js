@@ -3,5 +3,6 @@ module.exports = [
     'javascript',
     'python',
     'ruby',
+    'rust',
     'nohighlight'
 ]
