@@ -10,7 +10,8 @@ const mongoose = require('mongoose');
 // const { markdown } = require('markdown')
 
 // Languages hljs supports
-const languages = require('./languages');
+// const languages = require('./languages');
+// const detect = require('language-detect');
 
 const app = express();
 
@@ -44,19 +45,19 @@ app.get('/', async (req, res) => {
         if (!data) {
             return res.render('pages/error', { error: `Could not find paste with id: ${id} in the database!` })
         }
-        res.render('pages/index', { text: data.text, lang: data.lang }); /* markdown.toHTML(data.text) */
+        res.render('pages/index', { text: data.text/*, lang: data.lang*/ }); /* markdown.toHTML(data.text) */
     } else {
         res.redirect('/make')
     }
 });
 
 app.get('/make', (req, res) => {
-    res.render('pages/make', { languages });
+    res.render('pages/make'/*, { languages }*/);
 });
 
 app.post('/new', async (req, res) => {
     const text = req.body.text;
-    const lang = req.body.lang;
+    // const lang = detect.shebang(text);
 
     let id = genRandomString(6);
 
@@ -73,7 +74,7 @@ app.post('/new', async (req, res) => {
         {
             id,
             text,
-            lang
+            // lang
         },
         {
             upsert: true

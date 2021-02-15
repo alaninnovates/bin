@@ -10,11 +10,6 @@
             <div>
                 <form role="form" method='POST' action='/new'>
                     <textarea id="text" name="text" autocomplete="off" rows="20" cols="80" required>Text here</textarea>
-                    <select name="lang" id="lang">
-                        <% languages.forEach(lang => { %>
-                            <option value=<%= lang %>><%= lang %></option>
-                        <% }) %>
-                    </select>
                     <button 
                     type="submit">Submit</button>
                 </form>
