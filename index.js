@@ -9,10 +9,6 @@ const mongoose = require('mongoose');
 // Not nessacary anymore
 // const { markdown } = require('markdown')
 
-// Languages hljs supports
-// const languages = require('./languages');
-// const detect = require('language-detect');
-
 const app = express();
 
 // Using ejs
@@ -21,6 +17,7 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/static', express.static('public'));
+app.use(express.json());
 
 mongoose.connect(process.env.URI, {
     useNewUrlParser: true,
@@ -45,19 +42,18 @@ app.get('/', async (req, res) => {
         if (!data) {
             return res.render('pages/error', { error: `Could not find paste with id: ${id} in the database!` })
         }
-        res.render('pages/index', { text: data.text/*, lang: data.lang*/ }); /* markdown.toHTML(data.text) */
+        res.render('pages/index', { text: data.text });
     } else {
         res.redirect('/make')
     }
 });
 
 app.get('/make', (req, res) => {
-    res.render('pages/make'/*, { languages }*/);
+    res.render('pages/make');
 });
 
 app.post('/new', async (req, res) => {
     const text = req.body.text;
-    // const lang = detect.shebang(text);
 
     let id = genRandomString(6);
 
@@ -74,7 +70,6 @@ app.post('/new', async (req, res) => {
         {
             id,
             text,
-            // lang
         },
         {
             upsert: true
@@ -82,6 +77,34 @@ app.post('/new', async (req, res) => {
     )
     res.redirect(`/?id=${id}`);
 });
+
+app.post('/api/new', async (req, res) => {
+    const text = req.body.text;
+
+    let id = genRandomString(6);
+
+    const check = await BinSchema.findOne({ id })
+    if (check) {
+        id = genRandomString(6)
+    }
+
+    await BinSchema.findOneAndUpdate(
+        {
+            id
+        },
+        {
+            id,
+            text,
+        },
+        {
+            upsert: true
+        }
+    )
+    res.json({
+        id: id,
+        url: `https://bin.alanchen12.repl.co?id=${id}`
+    });
+})
 
 app.listen(process.env.SERVER_PORT, () => {
     console.log(`Server up on port ${process.env.SERVER_PORT}`);
