@@ -4,8 +4,9 @@
     </head>
     <body>
 		<div class="h-screen" style="background-color: #f0f0f0;">
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="download('submission.yaml', `<%- text -%>`)">Download</button>
-			<pre><code><%- text -%></code></pre>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="download(`<%- id -%>.txt`, `<%- text -%>`)">Download</button>
+			<a class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="fork(`<%- text -%>`)">Fork</a>
+			<pre><code class="language-<%- lang -%>"><%- text -%></code></pre>
 			
 		</div>
 		<script>
@@ -17,6 +18,12 @@
 			document.body.appendChild(element);
 			element.click();
 			document.body.removeChild(element);
+		}
+		function fork(text) {
+		    const forkUrl = new URL(window.location.href);
+			forkUrl.searchParams.set('text', text);
+			console.log(`/make?text=${forkUrl.searchParams}&lang=<%- lang -%>`);
+			window.location.href = `/make?${forkUrl.searchParams}&lang=<%- lang || 'text' -%>`
 		}
 		</script>
     </body>
