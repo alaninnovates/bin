@@ -5,10 +5,6 @@ const express = require('express');
 const BinSchema = require('./binSchema');
 const mongoose = require('mongoose');
 
-// Markdown lib for html parsing
-// Not nessacary anymore
-// const { markdown } = require('markdown')
-
 const app = express();
 
 // Using ejs
