@@ -146,9 +146,8 @@
 			editor.getSession().setMode('ace/mode/text');
 
 			// Load search query language
-			const search = Object.fromEntries(location.search.substring(1).split('&').map(item => item.split('=').map(korv => decodeURIComponent(korv))));
-			console.log(search);
-			const op = Array.from(document.getElementById('mode').options).filter(o => o.value === `ace/mode/${search.lang || 'text'}`);
+			const l = new URL(location).searchParams.get('lang');
+			const op = Array.from(document.getElementById('mode').options).filter(o => o.value === `ace/mode/${l}`);
 			op ? op[0].selected = true : undefined;
 			editor.getSession().setMode(op ? op[0].value : 'ace/mode/text');
 
