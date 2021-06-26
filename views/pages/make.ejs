@@ -1,25 +1,11 @@
 <html lang="en">
-
     <head>
         <%- include('../partials/head'); %>
     </head>
-
     <body>
-
-        <main>
-            <div>
-                <form role="form" method='POST' action='/new'>
-                    <textarea id="text" name="text" autocomplete="off" rows="20" cols="80" required>Text here</textarea>
-                    <button 
-                    type="submit">Submit</button>
-                </form>
-            </div>
-        </main>
-
-        <footer>
-            <%- include('../partials/footer'); %>
-        </footer>
-
+		<form role="form" method='POST' action='/new' class="h-screen flex flex-col justify-center align-center">
+			<textarea id="text" name="text" autocomplete="off" placeholder="Text here" class="mx-4 mt-2 w-11/12 h-5/6" required></textarea>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" type="submit">Add</button>
+		</form>
     </body>
-
 </html>

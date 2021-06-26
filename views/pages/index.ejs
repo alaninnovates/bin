@@ -1,21 +1,23 @@
 <html lang="en">
-
     <head>
         <%- include('../partials/head'); %>
     </head>
-
     <body>
-
-        <main>
-            <div>
-                <pre><code><%- text -%></code></pre>
-            </div>
-        </main>
-
-        <footer>
-            <%- include('../partials/footer'); %>
-        </footer>
-
+		<div class="h-screen" style="background-color: #f0f0f0;">
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="download('submission.yaml', `<%- text -%>`)">Download</button>
+			<pre><code><%- text -%></code></pre>
+			
+		</div>
+		<script>
+		function download(filename, text) {
+			let element = document.createElement('a');
+			element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
+			element.setAttribute('download', filename);
+			element.style.display = 'none';
+			document.body.appendChild(element);
+			element.click();
+			document.body.removeChild(element);
+		}
+		</script>
     </body>
-
 </html>
