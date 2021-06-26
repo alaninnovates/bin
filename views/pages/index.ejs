@@ -7,7 +7,7 @@
 			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="download(`<%- id -%>.txt`, `<%- text -%>`)">Download</button>
 			<a class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="fork(`<%- text -%>`)">Fork</a>
 			<pre><code class="language-<%- lang  -%>"><%- text -%></code></pre>
-			
+			<footer><%- include('../partials/footer'); %></footer>
 		</div>
 		<script>
 		console.log('<%- lang -%>');

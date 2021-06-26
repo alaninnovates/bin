@@ -81,6 +81,21 @@ app.get('/:id', async (req, res) => {
 	}
 });
 
+app.get('/raw/:id', async (req, res) => {
+	const id = req.params.id;
+	if (id) {
+		const data = await BinSchema.findOne({ id });
+		if (!data) {
+			return res.render('pages/error', {
+				error: `Could not find paste with id: ${id} in the database!`,
+			});
+		}
+		res.render('pages/index', { text: data.text, lang: data.lang, id });
+	} else {
+		res.redirect('/make');
+	}
+});
+
 app.listen(process.env.SERVER_PORT, () => {
 	console.log(`Server up on port ${process.env.SERVER_PORT}`);
 });
