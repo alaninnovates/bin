@@ -1,20 +1,15 @@
 <html lang="en">
 	<head>
 		<%- include('../partials/head'); %>
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/ace.js"
-			integrity="sha256-kCykSp9wgrszaIBZpbagWbvnsHKXo4noDEi6ra6Y43w="
-			crossorigin="anonymous"
-		></script>
 	</head>
 	<body>
-		<div class="h-screen flex flex-col justify-center align-center gap-6">
+		<div class="h-screen flex flex-col justify-center align-center gap-6" style="background-color: #f0f0f0;">
 			<%/* w-11/12 h-5/6 should work but ace doesnt like it */%>
 			<div
 				id="editor"
 				style="width: 91.666667%; height: 83.333333%"
 				class="mx-4 mt-2"
-			><%- text -%></div>
+			><%= text %></div>
 			<div class="flex flex-row justify-center mb-4">
 				<button
 					class="
@@ -145,6 +140,9 @@
 			const editor = ace.edit('editor');
 			editor.setTheme('ace/theme/monokai');
 			editor.getSession().setMode('ace/mode/text');
+			editor.setOptions({
+				fontSize: '14pt'
+			});
 
 			// Load search query language
 			const l = new URL(location).searchParams.get('lang');

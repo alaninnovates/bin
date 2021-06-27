@@ -4,25 +4,41 @@
     </head>
     <body>
 		<div class="h-screen" style="background-color: #f0f0f0;">
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="download(`<%- id -%>.txt`, `<%- text -%>`)">Download</button>
-			<a class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="fork(`<%- text -%>`)">Fork</a>
-			<pre><code class="language-<%- lang  -%>"><%- text -%></code></pre>
-			<footer><%- include('../partials/footer'); %></footer>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="download()">Download</button>
+			<a class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 mt-4 mx-4 rounded-full" onclick="fork()">Fork</a>
+			<div class="py-4 px-4">
+				<div
+					id="editor"
+					style="width: 91.666667%; height: 83.333333%"
+					
+				><%= text %></div>
+			</div>
+			
+			<!-- <pre class="pl-2"><code class="language-<%- lang -%>"><%= text %></code></pre> -->
+			<footer>
+				<%- include('../partials/footer'); %>
+			</footer>
 		</div>
 		<script>
-		console.log('<%- lang -%>');
-		function download(filename, text) {
+		const editor = ace.edit('editor');
+		editor.setTheme('ace/theme/monokai');
+		editor.getSession().setMode('ace/mode/<%- lang -%>');
+		editor.setReadOnly(true);
+		editor.setOptions({
+			fontSize: '14pt'
+		});
+		function download(filename) {
 			let element = document.createElement('a');
-			element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
-			element.setAttribute('download', filename);
+			element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(`<%= text %>`)}`);
+			element.setAttribute('download', '<%- id -%>.txt');
 			element.style.display = 'none';
 			document.body.appendChild(element);
 			element.click();
 			document.body.removeChild(element);
 		}
-		function fork(text) {
+		function fork() {
 		    const forkUrl = new URL(window.location.href);
-			forkUrl.searchParams.set('text', text);
+			forkUrl.searchParams.set('text', `<%= text %>`);
 			window.location.href = `/make?${forkUrl.searchParams}&lang=<%- lang || 'text' -%>`
 		}
 		</script>
